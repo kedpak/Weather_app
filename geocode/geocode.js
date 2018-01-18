@@ -1,5 +1,8 @@
 const req = require('request');
 
+
+// Takes in the arguments from command line and query it into google maps uriAddress
+// Returns and object with address property, longitude and latitude properties
 let geocodeAddress = (argv, callback) => {
   let uriAddress = encodeURIComponent(argv);
   req({
