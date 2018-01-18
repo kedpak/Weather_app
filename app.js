@@ -1,6 +1,6 @@
 const yargs = require('yargs');
 const geocode = require('./geocode/geocode.js');
-
+const req = require('request');
 
 const argv = yargs.options({
   a: {
@@ -16,7 +16,17 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
   if (errorMessage) {
     console.log(errorMessage);
   } else {
-    console.log(JSON.stringify(results, undefined, 4));
+    console.log(JSON.stringify(results));
+    console.log(results.address);
+    req({
+      url: `https://api.darksky.net/forecast/51cdd45a01c3e1cc2be1f670d52d755a/${results.lat},${results.lng}`,
+      json: true
+    }, (error, response, body) => {
+      if (error) {
+        console.log("Location not found.");
+      }
+      console.log(`The current temperature in ${argv.address} is ${body.currently.temperature} degrees`);
+    });
   }
 });
 
