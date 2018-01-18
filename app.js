@@ -24,8 +24,11 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
     }, (error, response, body) => {
       if (error) {
         console.log("Location not found.");
+      } else if (response.statusCode !== 200) {
+        console.log("Something went wrong!");
+      } else if (response.statusCode === 200) {
+        console.log(`The current temperature in ${argv.address} is ${body.currently.temperature} degrees`);
       }
-      console.log(`The current temperature in ${argv.address} is ${body.currently.temperature} degrees`);
     });
   }
 });
